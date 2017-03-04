@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <mapper namespace="xiu.dao.LoginDAO">
+	<select id="adminMatched" resultType="xiu.entity.Admin"
+		parameterType="xiu.entity.Admin">
+		select adminid,adminpw from admin where
+		adminid=#{adminid} and adminpw=#{adminpw}
+ </select>
+	<select id="studentMatched" resultType="xiu.entity.Student"
+		parameterType="xiu.entity.Student">
+		select studentid,studentpw,name from studentinfo where studentid=#{studentid} and
+		studentpw=#{studentpw} and states=1
+	</select>
+
+</mapper>
+

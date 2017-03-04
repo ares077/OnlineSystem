@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="xiu"
+  id="myeclipse.1169338782883"
+  context-root="/xiu"
+  j2ee-spec="5.0"
+  archive="xiu.war">
+  <attributes>
+    <attribute name="webrootdir" value="/WebRoot" />
+  </attributes>
+</project-module>
+

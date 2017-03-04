@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<struts>
+	<!--
+		公共包
+		封装拦截器=====用于登录验证=================================================================================================
+	-->
+	<package name="interceptor" extends="json-default">
+		<interceptors>
+			<interceptor name="adminInterceptor" class="interceptor.AdminInterceptor" />
+			<interceptor-stack name="adminStack">
+				<interceptor-ref name="adminInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="adminStack" />
+		<global-results>
+			<result name="login" type="redirectAction">
+				<param name="namespace">/login</param>
+				<param name="actionName">login</param>
+			</result>
+		</global-results>
+	</package>
+	<!--
+		登录包=====================================================================================================================
+	-->
+	<package name="action.login" namespace="/login" extends="json-default">
+		<!-- 登录 -->
+		<action name="login" class="loginAction">
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+			<result name="success2">
+				/WEB-INF/admin/adminindex.jsp
+        </result>
+			<result name="success" type="redirectAction">
+				http://localhost:8080/xiu/login/login
+        </result>
+			<result name="fail">
+				/login.jsp
+        </result>
+		</action>
+		<!-- 验证码生成 -->
+		<action name="createImage" class="action.login.CreateImageAction">
+			<result name="success" type="stream">
+				<param name="inputName">inputStream</param>
+				<param name="contenType">image/jpeg</param>
+			</result>
+		</action>
+		<!-- Ajax验证验证码 -->
+		<action name="checkCode" class="action.login.CheckCodeAction">
+			<result name="success" type="json">
+				<param name="root">info</param>
+			</result>
+		</action>
+	</package>
+	<!--
+		学生信息操作包===========================================================================================================
+	-->
+	<package name="action.adminstudentlists" namespace="/student"
+		extends="interceptor">
+		<!--管理员界面首页  -->
+		<action name="adminindex">
+			<result name="success">
+				/WEB-INF/admin/adminindex.jsp
+        </result>
+		</action>
+		<!--添加学生界面  -->
+		<action name="addstudent" class="action.admin.studentlists.LoadAddAction">
+			<result name="success">
+				/WEB-INF/admin/student/addstudent.jsp
+        </result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- 学生信息的链接 -->
+		<action name="studentlists" class="studentListsAction">
+			<result name="success">
+				/WEB-INF/admin/student/studentlists.jsp
+        </result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- 删除学生信息 -->
+		<action name="delete" class="deleteStudentAction">
+			<result name="success" type="redirectAction">
+				studentlists
+        </result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- 添加学生信息 -->
+		<action name="add" class="addStudentAction">
+			<result name="fail"> <!-- type="redirectAction" -->
+				/WEB-INF/admin/student/addstudent.jsp
+			</result>
+			<result name="success" type="redirectAction">
+				addstudent
+        </result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- 修改学生信息 -->
+		<action name="modify" class="modifyStudentAction">
+			<result name="fail"> <!-- type="redirectAction" -->
+				/WEB-INF/admin/student/loadonestudent.jsp
+			</result>
+			<result name="success">
+				/WEB-INF/admin/student/loadonestudent.jsp
+			</result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- Ajax验证学生号 -->
+		<action name="checkStudentid" class="checkStudentidAction">
+			<result name="success" type="json">
+				<param name="root">infoStudentid</param>
+			</result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- Ajax加载专业 -->
+		<action name="loadmajor" class="action.admin.studentlists.LoadMajorAction">
+			<result name="success" type="json">
+				<param name="root">majors</param>
+			</result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- Ajax验证密码 -->
+		<action name="checkStudentpw" class="action.admin.studentlists.CheckStudentpwAction">
+			<result name="success" type="json">
+				<param name="root">infoStudentpw</param>
+			</result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- Ajax验证班级 -->
+		<action name="checkclassinfo" class="action.admin.studentlists.CheckClassinfoAction">
+			<result name="success" type="json">
+				<param name="root">infoclassinfo</param>
+			</result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- 查找单个学生的信息的链接 -->
+		<action name="onestudent" class="loadOneStudentAction">
+			<result name="success">
+				/WEB-INF/admin/student/loadonestudent.jsp
+			</result>
+			<result name="fail">
+				/WEB-INF/admin/notfond404.jsp
+        </result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+	</package>
+	<!--
+		题目信息操作包===========================================================================================================
+	-->
+	<package name="action.admin.questionlists" namespace="/question"
+		extends="interceptor">
+		<!-- 题目信息的链接 -->
+		<action name="questionlists" class="questionListsAction">
+			<result name="success">
+				/WEB-INF/admin/question/questionlists.jsp
+			</result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- 题目信息2的链接 -->
+		<action name="questionlists2" class="questionLists2Action">
+			<result name="success">
+				/WEB-INF/admin/question/questionlists2.jsp
+			</result>
+			<result name="fail">
+				/WEB-INF/admin/question/questionnotfound.jsp
+			</result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- 删除题目 -->
+		<action name="delete" class="deleteQuestionAction">
+			<result name="success" type="redirectAction">
+				questionlists
+        </result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- 查找单个题目的信息的链接 -->
+		<action name="onequestion" class="loadOneQuestionAction">
+			<result name="success">
+				/WEB-INF/admin/question/loadonequestion.jsp
+			</result>
+			<result name="fail">
+				/WEB-INF/admin/notfond404.jsp
+        </result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- 修改题目信息 -->
+		<action name="modify" class="modifyQuestionAction">
+			<result name="fail"> <!-- type="redirectAction" -->
+				/WEB-INF/admin/question/loadonequestion.jsp
+			</result>
+			<result name="success">
+				/WEB-INF/admin/question/loadonequestion.jsp
+			</result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!--添加题目界面  -->
+		<action name="add" class="action.admin.questionlists.LoadAddAction">
+			<result name="success">
+				/WEB-INF/admin/question/addquestion.jsp
+        </result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- 添加题目信息 -->
+		<action name="addquestion" class="addQuestionAction">
+			<result name="fail"> <!-- type="redirectAction" -->
+				/WEB-INF/admin/question/addquestion.jsp
+			</result>
+			<result name="success" type="redirectAction">
+				add
+        </result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+	</package>
+	<!--
+		成绩信息操作包===========================================================================================================
+	-->
+	<package name="action.admin.notelists" namespace="/note"
+		extends="interceptor">
+		<action name="notelists" class="noteListsAction">
+			<result name="success">
+				/WEB-INF/admin/note/notelists.jsp
+	</result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<action name="notelists2" class="noteLists2Action">
+			<result name="success">
+				/WEB-INF/admin/note/notelists2.jsp
+	</result>
+			<result name="fail">
+				/WEB-INF/admin/notfond404.jsp
+        </result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- 查找单个成绩的信息的链接 -->
+		<action name="onenote" class="action.admin.notelists.LoadOneNoteAction">
+			<result name="success">
+				/WEB-INF/admin/note/loadonenote.jsp
+			</result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- 修改成绩信息 -->
+		<action name="modify" class="action.admin.notelists.ModifyNoteAction">
+			<result name="fail"> <!-- type="redirectAction" -->
+				/WEB-INF/admin/note/loadonenote.jsp
+			</result>
+			<result name="success">
+				/WEB-INF/admin/note/loadonenote.jsp
+			</result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+	</package>
+	<!--
+		课程信息操作包=====================================================================================================================
+	-->
+	<package name="action.admin.courselists" namespace="/course"
+		extends="interceptor">
+		<!-- 课程主页面 -->
+		<action name="courselists" class="action.admin.courselists.ShowAllCourseAction">
+			<result name="success">
+				/WEB-INF/admin/course/courselists.jsp
+	</result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- Ajax加载课程 -->
+		<action name="loadcourse" class="action.admin.courselists.CourseAjaxAction">
+			<result name="success" type="json">
+				<param name="root">courses</param>
+			</result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- 修改课程名信息 -->
+		<action name="modify" class="action.admin.courselists.ModifyCourseAction">
+			<result name="fail"> <!-- type="redirectAction" -->
+				/WEB-INF/admin/course/courselists.jsp
+			</result>
+			<result name="success" type="redirectAction">
+				courselists
+        </result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- 删除课程名信息 -->
+		<action name="delete" class="action.admin.courselists.DeleteCourseAction">
+			<result name="fail"> <!-- type="redirectAction" -->
+				/WEB-INF/admin/course/courselists.jsp
+			</result>
+			<result name="success" type="redirectAction">
+				courselists
+        </result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- 转到添加页面 -->
+		<action name="addpage">
+			<result name="success">
+				/WEB-INF/admin/course/addcourse.jsp
+        </result>
+		</action>
+		<!-- Ajax验证CourseID是否存在 -->
+		<action name="checkcid" class="action.admin.courselists.CheckCourseidAction">
+			<result name="success" type="json">
+				<param name="root">msg</param>
+			</result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- 删除课程名信息 -->
+		<action name="add" class="addCourseAction">
+			<result name="fail"> <!-- type="redirectAction" -->
+				/WEB-INF/admin/course/addcourse.jsp
+			</result>
+			<result name="success" type="redirectAction">
+				addpage
+        </result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+	</package>
+	<!--
+		====================试卷信息============================================================================
+	-->
+	<package name="action.admin.paperlists" namespace="/paper"
+		extends="interceptor">
+		<!-- 转到添加试卷界面 -->
+		<action name="addpage" class="action.admin.paperlists.LoadAddAction">
+			<result name="success">
+				/WEB-INF/admin/paper/addpaper.jsp
+	</result>
+		</action>
+		<!-- 试卷列表页面 -->
+		<action name="paperlists" class="action.admin.paperlists.PaperListsAction">
+			<result name="success">
+				/WEB-INF/admin/paper/paperlists.jsp
+	</result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- Ajax加载试卷 -->
+		<action name="loadpaper" class="action.admin.paperlists.PaperAjaxAction">
+			<result name="success" type="json">
+				<param name="root">paper</param>
+			</result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- 修改试卷信息 -->
+		<action name="modify" class="modifyPaperAction">
+			<result name="fail"> <!-- type="redirectAction" -->
+				/WEB-INF/admin/paper/paperlists.jsp
+			</result>
+			<result name="success" type="redirectAction">
+				paperlists
+        </result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- 删除试卷信息 -->
+		<action name="delete" class="action.admin.paperlists.DeletePaperAction">
+			<result name="fail"> <!-- type="redirectAction" -->
+				/WEB-INF/admin/paper/paperlists.jsp
+			</result>
+			<result name="success" type="redirectAction">
+				paperlists
+        </result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- 删除试卷信息 -->
+		<action name="add" class="addPaperAction">
+			<result name="fail"> <!-- type="redirectAction" -->
+				/WEB-INF/admin/paper/addpaper.jsp
+			</result>
+			<result name="success" type="redirectAction">
+				addpage
+        </result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+		<!-- Ajax验证Paperid -->
+		<action name="check" class="checkPaperAction">
+			<result name="success" type="json">
+				<param name="root">checkp_mag</param>
+			</result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+		</action>
+	</package>
+	<!--
+		====================反馈信息与开启考试============================================================================
+	-->
+	<package name="action.feedback" namespace="/feedback"
+		extends="interceptor">
+		<!-- 试卷列表页面 -->
+		<action name="fb" class="feedBackAction">
+			<result name="success">
+				/WEB-INF/user/feedback.jsp
+	</result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+        </result>
+        <result name="ss2">
+				/WEB-INF/admin/notfond404.jsp
+        </result>
+		</action>
+	</package>
+</struts>

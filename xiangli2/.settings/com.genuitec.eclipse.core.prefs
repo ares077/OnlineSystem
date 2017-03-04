@@ -1,0 +1,4 @@
+#Thu Oct 16 10:15:18 CST 2014
+eclipse.preferences.version=1
+validator.Checked=WebRoot/WEB-INF/main/div2.html,src/applicationContext.xml,WebRoot/WEB-INF/admin/question,src/struts.xml
+validator.Unchecked=

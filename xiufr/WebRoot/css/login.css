@@ -1,0 +1,23 @@
+@CHARSET "UTF-8";
+table{
+	border:1 solid red;
+	cellpadding:5;
+	align:center;	
+	margin:300 auto;
+	}
+td{
+	text-align:center;
+	}
+tr{
+	height:40;
+	}
+div{
+	margin:0 auto;
+	align:center;
+	}
+body{
+	background-color:#C7EDCC;
+	}
+span{
+	color:red;
+	}

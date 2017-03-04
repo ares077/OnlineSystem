@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xmlns:context="http://www.springframework.org/schema/context"
+	 xmlns:jdbc="http://www.springframework.org/schema/jdbc" 
+	 xmlns:jee="http://www.springframework.org/schema/jee" 
+	 xmlns:tx="http://www.springframework.org/schema/tx" 
+	 xmlns:util="http://www.springframework.org/schema/util" 
+	 xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	 xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	 	 http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+		 http://www.springframework.org/schema/context 
+		 http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		 http://www.springframework.org/schema/jdbc 
+		 http://www.springframework.org/schema/jdbc/spring-jdbc.xsd 
+		 http://www.springframework.org/schema/jee 
+		 http://www.springframework.org/schema/jee/spring-jee-2.0.xsd
+		 http://www.springframework.org/schema/tx 
+		 http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		 http://www.springframework.org/schema/util 
+		 http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		 http://www.springframework.org/schema/mvc 
+		 http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+
+<!-- 定义拦截器 -->
+<mvc:interceptors>
+<!-- 登录验证 -->
+  <mvc:interceptor>
+    <mvc:mapping path="/*/*"/>
+    <mvc:exclude-mapping path="/login/*"/>
+    <bean class="xiu.interceptor.LoginInterceptor"/>
+  </mvc:interceptor>
+  <!-- 禁止游客访问 -->
+  <mvc:interceptor>
+    <mvc:mapping path="/*/*"/>
+    <mvc:exclude-mapping path="/login/*"/>
+    <mvc:exclude-mapping path="/main/*"/>
+    <mvc:exclude-mapping path="/feedback/*"/>
+    <bean class="xiu.interceptor.TouristInterceptor"/>
+  </mvc:interceptor>
+</mvc:interceptors>
+
+		 
+		 <!-- 开启扫描 -->
+<context:component-scan base-package="xiu"/>
+	<mvc:annotation-driven/>
+	
+	<!-- 为了适应REST风格，支持css,js等静态资源加载 -->
+	<mvc:default-servlet-handler/>
+	
+	<!-- 定义视图解析 -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/user/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+</beans>

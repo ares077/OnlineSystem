@@ -1,0 +1,32 @@
+@CHARSET "UTF-8";
+
+.div1 {
+	width: 99%;
+	height: 10%;
+}
+
+.div5 {
+	width: 99%;
+	height: 90%;
+}
+
+.div2 {
+	width: 19%;
+	height: 100%;
+	float: left;
+	border-right: solid 1 gray;
+}
+
+.div3 {
+	width: 80%;
+	height: 100%;
+	float: left;
+}
+
+.div4 {
+	width: 99%;
+	height: 10%;
+}
+.tdiv{
+	padding:300 0 0 0;
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head>
+		<title>div2.html</title>
+
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="this is my page">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+		<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+		<script type="text/javascript">
+		function findstudent(){
+			var studentid=document.getElementById("studentid2").value;
+			var uri='student/onestudent?studentid='+studentid;
+			location.href=uri;
+		}
+		function findnote(){
+			var studentid=document.getElementById("studentid3").value;
+			var uri='note/notelists2?studentid='+studentid+'&&nowPN=1';
+			location.href=uri;
+		}
+		</script>
+	</head>
+
+	<body>
+		<table width="100%" height="100%" cellpadding="20" cellspacing="0"
+			style="font-size: 30px">
+			<tr>
+				<td align="right">
+					<input maxlength="11" size="15" id="studentid2" placeholder="输入学号查询学生信息" />
+				</td>
+				<td align="left">
+					<input type="button" value=">>" onclick="findstudent();" />
+				</td>
+			</tr>
+			<tr>
+				<td align="right">
+					<input maxlength="11" size="15" id="studentid3" placeholder="输入学号查询成绩信息" />
+				</td>
+				<td align="left">
+					<input type="button" value=">>" onclick="findnote();" />
+				</td>
+			</tr>
+			<tr align="center">
+				<td colspan="2">
+					<input type="button" value="添加新学生" onclick="location='student/addstudent'">
+				</td>
+			</tr>
+			<tr align="center">
+				<td colspan="2">
+					<input type="button" value="添加新课程" onclick="location='course/addpage'">
+				</td>
+			</tr>
+			<tr align="center">
+				<td colspan="2">
+					<input type="button" value="添加新试卷" onclick="location='paper/addpage'">
+				</td>
+			</tr>
+			<tr align="center">
+				<td colspan="2">
+					<input type="button" value="添加新题目" onclick="location='question/add'">
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

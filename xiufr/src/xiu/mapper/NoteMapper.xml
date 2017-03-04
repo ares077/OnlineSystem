@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="xiu.dao.NoteDAO">
+	<select id="countNote" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		select count(*) from note where studentid=#{id}
+ </select>
+	<select id="findByPage" parameterType="xiu.entity.Page"
+		resultType="xiu.entity.Note">
+		select noteid,studentid,courseid,singlecho,multicho,total,nandu,adddate from note
+		where studentid=#{studentid} order by noteid limit #{start},#{pageSize}
+ </select>
+  <select id="findCourses" resultType="xiu.entity.Course">
+ select courseid,coursename from course where states=1
+ </select>
+ <select id="countNoteByCID" parameterType="xiu.entity.Page" resultType="java.lang.Integer">
+ select count(*) from note where studentid=#{studentid} and courseid=#{courseid}
+ </select>
+ <select id="findByPageByCID" parameterType="xiu.entity.Page"
+		resultType="xiu.entity.Note">
+		select noteid,studentid,courseid,singlecho,multicho,total,nandu,adddate from note
+		where studentid=#{studentid} and courseid=#{courseid} order by noteid limit #{start},#{pageSize}
+ </select>
+</mapper>

@@ -1,0 +1,12 @@
+/* 全局 CSS 定义 */
+body{margin:0 auto;padding:0;font:'宋体';text-align:center;}
+body > div{margin-right:auto;margin-left:auto;text-align:center; }
+div,form,span,p,dl,dt,dd,img{margin:0;padding:0;border:0;align:center}
+h1,h2,h3,h4,h5,h6{margin:0;padding:0;font-style:normal}
+a{font-style:normal;text-decoration:none}
+body{
+	background-color:#C7EDCC;
+	}
+table tr{
+	text-align: center;
+	}

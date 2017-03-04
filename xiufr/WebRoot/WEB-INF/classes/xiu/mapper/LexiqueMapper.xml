@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="xiu.dao.LexiqueDAO">
+	<select id="findById" parameterType="xiu.entity.Lexique"
+		resultType="xiu.entity.Lexique">
+		select
+		lexiqueid,mot,declinaison,sensch,sensfr,locution1,locution2,locution3,phrase1,phrase2,phrase3,jour,user,state
+		from lexique where lexiqueid=#{lexiqueid} and user=#{user}
+ </select>
+	<select id="modify" parameterType="xiu.entity.Lexique">
+		update lexique set
+		mot=#{mot},declinaison=#{declinaison},sensch=#{sensch},sensfr=#{sensfr},locution1=#{locution1},locution2=#{locution2},locution3=#{locution3},phrase1=#{phrase1},phrase2=#{phrase2},phrase3=#{phrase3}
+		where lexiqueid=#{lexiqueid}
+ </select>
+ <select id="add" parameterType="xiu.entity.Lexique">
+   insert into lexique(mot,declinaison,sensch,sensfr,locution1,locution2,locution3,phrase1,phrase2,phrase3,jour,user)
+   values(#{mot},#{declinaison},#{sensch},#{sensfr},#{locution1},#{locution2},#{locution3},#{phrase1},#{phrase2},#{phrase3},#{jour},#{user})
+ </select>
+ 
+ <select id="findByName" parameterType="xiu.entity.Lexique"
+		resultType="xiu.entity.Lexique">
+		select
+		lexiqueid,mot,declinaison,sensch,sensfr,locution1,locution2,locution3,phrase1,phrase2,phrase3,jour,user
+		from lexique where mot=#{mot} and user=#{user}
+ </select>
+ 
+  <select id="findAll" 
+		resultType="xiu.entity.Lexique">
+		select
+		lexiqueid,mot,declinaison,sensch,sensfr,locution1,locution2,locution3,phrase1,phrase2,phrase3,jour,user
+		from lexique where state != '0'
+ </select>
+ 
+  
+ <select id="countAll" parameterType="java.lang.String" resultType="java.lang.Integer">
+ select count(*) from lexique where state != '0' and user=#{user}
+ </select>
+	<select id="findByPage" parameterType="xiu.entity.PageLexique"
+		resultType="xiu.entity.Lexique">
+		select
+		lexiqueid,mot,declinaison,sensch,sensfr,locution1,locution2,locution3,phrase1,phrase2,phrase3,jour,user
+		from lexique where  state != '0' and user=#{user} order by lexiqueid desc limit #{start},#{pageSize}
+		
+ </select>
+ 
+	 <select id="countLimit" parameterType="xiu.entity.PageLexique" resultType="java.lang.Integer">
+ select count(*) from lexique 
+ <where>
+ user=#{user}
+ <if test="declinaison!=null">and declinaison=#{declinaison}</if>
+ <if test="mot!=null">and mot like '%${mot}%'</if>
+ <if test="jour!=null">and jour like '%${jour}%'</if>
+ </where>
+ </select>
+	<select id="findByLimit" parameterType="xiu.entity.PageLexique"
+		resultType="xiu.entity.Lexique">
+		select
+		lexiqueid,mot,declinaison,sensch,sensfr,locution1,locution2,locution3,phrase1,phrase2,phrase3,jour,user
+		from lexique 
+		<where>
+user=#{user} 
+ <if test="declinaison!=null">and declinaison=#{declinaison}</if>
+ <if test="mot!=null">and mot like '%${mot}%'</if>
+ <if test="jour!=null">and jour like '%${jour}%'</if>
+ </where>
+		order by lexiqueid desc limit #{start},#{pageSize}
+		
+ </select>
+ 
+	<select id="delete" parameterType="java.lang.Integer">
+	    update lexique set 
+	    state = 0 where lexiqueid=#{id}
+	</select>
+	<select id="remettre" parameterType="java.lang.Integer">
+	    update lexique set 
+	    state = 1 where lexiqueid=#{id}
+	</select>
+	
+</mapper>

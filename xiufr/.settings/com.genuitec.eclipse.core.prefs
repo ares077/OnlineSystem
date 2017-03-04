@@ -1,0 +1,4 @@
+#Thu Oct 16 16:45:22 CST 2014
+eclipse.preferences.version=1
+validator.Checked=src/xiu/mapper/NoteMapper.xml,src/xiu/config/applicationContext-mybatis.xml,WebRoot/javascript/exam/exam.js,src/xiu/mapper/StudentMapper.xml,src/xiu/mapper/ExamMapper.xml,src/xiu/config/applicationContext-springmvc.xml,src/xiu/mapper/LoginMapper.xml,WebRoot/WEB-INF/user/stu/feedback/feedback.jsp
+validator.Unchecked=

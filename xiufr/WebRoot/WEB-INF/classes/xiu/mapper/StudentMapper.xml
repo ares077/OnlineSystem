@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="xiu.dao.StudentDAO">
+	<select id="findByKey" parameterType="java.lang.String"
+		resultType="xiu.entity.Student">
+		select
+		studentid,studentpw,name,sex,idnumber,phonum,email,department,major,classinfo,notice,answer
+		from studentinfo where studentid=#{id}
+ </select>
+	<select id="modify" parameterType="xiu.entity.Student">
+		update studentinfo set
+		name=#{name},sex=#{sex},idnumber=#{idnumber},phonum=#{phonum},email=#{email},department=#{department},major=#{major},classinfo=#{classinfo},notice=#{notice},answer=#{answer}
+		where studentid=#{studentid}
+ </select>
+ <select id="modify2" parameterType="xiu.entity.Student">
+   update studentinfo set studentpw=#{studentpw} where studentid=#{studentid}
+ </select>
+</mapper>

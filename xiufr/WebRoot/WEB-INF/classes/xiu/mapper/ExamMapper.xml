@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="xiu.dao.ExamDAO">
+	<select id="findCourses" resultType="xiu.entity.Course">
+		select courseid,coursename
+		from course where states=1
+ </select>
+	<select id="findCourseByID" parameterType="java.lang.String"
+		resultType="xiu.entity.Course">
+		select courseid,coursename from course where courseid=#{id}
+ </select>
+	<select id="findPaperByCid" parameterType="java.lang.String"
+		resultType="xiu.entity.Paper">
+		select paperid,papername from paper where courseid=#{id}
+ </select>
+	<select id="findPaperByID" parameterType="java.lang.String"
+		resultType="xiu.entity.Paper">
+		select paperid,papername from paper where paperid=#{id}
+ </select>
+	<select id="findNoteID" parameterType="xiu.entity.Note"
+		resultType="xiu.entity.Note">
+		select noteid from note where noteid=#{noteid} and
+		courseid=#{courseid}
+ </select>
+	<select id="findQuestionsSin" parameterType="java.lang.String"
+		resultType="xiu.entity.Question">
+		select questionid, description, level, a, b, c, d, e, f,
+		answer,
+		remark from question where paperid=#{id} and type='单选'
+ </select>
+	<select id="finQuestionsMul" parameterType="java.lang.String"
+		resultType="xiu.entity.Question">
+		select questionid, description, level, a, b, c, d, e, f,
+		answer,remark from question where paperid=#{id} and type='多选'
+ </select>
+
+	<select id="findAnswer" parameterType="xiu.entity.QuesID"
+		resultType="xiu.entity.Question">
+		select questionid,type, description, level, a, b, c, d, e, f,
+		answer,remark from question where questionid in
+		<foreach collection="qid" item="item" open="(" close=")"
+			separator=",">
+			#{item}
+		</foreach>
+	</select>
+	<select id="findCidByPid" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		select courseid from paper where paperid=#{id}
+	</select>
+	<select id="addNote" parameterType="xiu.entity.Note">
+		insert into note(noteid,studentid,courseid,singlecho,multicho,total,nandu,cuoti,adddate)
+		values(#{noteid},#{studentid},#{courseid},#{singlecho},#{multicho},#{total},#{nandu},#{cuoti},now());
+	</select>
+	<select id="findNoteById" parameterType="java.lang.String" resultType="xiu.entity.Note">
+	select noteid,total,cuoti from note where noteid=#{id}
+	</select>
+</mapper>

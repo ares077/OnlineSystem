@@ -1,0 +1,49 @@
+   create table lexique(
+LEXIQUEID INT(64) AUTO_INCREMENT PRIMARY KEY,
+MOT VARCHAR(50),
+DECLINAISON VARCHAR(10),
+SENSCH VARCHAR(50),
+SENSFR VARCHAR(200),
+LOCUTION1 VARCHAR(100),
+LOCUTION2 VARCHAR(100),
+LOCUTION3 VARCHAR(100),
+PHRASE1 VARCHAR(200),
+PHRASE2 VARCHAR(200),
+PHRASE3 VARCHAR(200),
+JOUR VARCHAR(8),
+USER VARCHAR(12),
+STATE VARCHAR(1) DEFAULT 1
+);
+
+private String create_testGame2="create table Game2 (" +
+        " _id integer primary key,"                   +
+        " question varchar(200) not null ,"          +
+        " imgpath varchar(200) default '' ,"          +
+        " audiopath varchar(200) default '' ,"          +
+        " answer varchar(50) not null,"                   +
+        " level int default 0 ,"          +
+        " box int default 1 "        +
+        ");";
+        
+
+   create table lexique(
+LEXIQUEID INT(64) AUTO_INCREMENT PRIMARY KEY, 
+MOT VARCHAR(50),
+DECLINAISON VARCHAR(10),
+SENSCH VARCHAR(50),
+SENSFR VARCHAR(200),
+LOCUTION1 VARCHAR(100),
+LOCUTION2 VARCHAR(100),
+LOCUTION3 VARCHAR(100),
+PHRASE1 VARCHAR(200),
+PHRASE2 VARCHAR(200),
+PHRASE3 VARCHAR(200),
+JOUR VARCHAR(8),
+USER VARCHAR(12),
+STATE VARCHAR(1) DEFAULT 1,
+imgpath varchar(200) default '',
+audiopath varchar(200) default '' ,
+level int default 0 ,
+answer varchar(200) default '',
+box int default 1
+);
